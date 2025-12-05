@@ -20,22 +20,17 @@ const PostDetail = () => {
   getAllPosts();
   }, [id]);
 
-  if (error) {
-    return <>記事が見つかりません</>
-  }
+  if (loading) return <p>loading</p>
+  if (error)  return <p>記事が見つかりません</p>
   
   return (
-    loading ? (
-      <>loading</>
-    ) : (
     <div>
       <h2>{post.title}</h2>
       <div>{post.createdAt}</div>
       <div>{post.categories}</div>
       <div dangerouslySetInnerHTML={{ __html: post.content }} />
     </div>
-    )
-  );
+  )
 }
 
 export default PostDetail

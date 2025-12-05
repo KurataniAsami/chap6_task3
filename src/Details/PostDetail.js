@@ -5,6 +5,7 @@ const PostDetail = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -12,9 +13,16 @@ const PostDetail = () => {
     const data = await response.json();
     setPost(data.post);
     setLoading(false);
+    if (!data.post) {
+      setError(true);
+    }
   };
   getAllPosts();
   }, [id]);
+
+  if (error) {
+    return <>記事が見つかりません</>
+  }
   
   return (
     loading ? (

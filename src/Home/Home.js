@@ -16,12 +16,10 @@ function Home() {
   getAllPosts();
   }, []);
 
+  if (loading) return <p>loading</p>
+  if (posts.length === 0) return <p>記事が見つかりません</p>
+
   return (
-    loading ? (
-      <>loading</>
-    ) : posts.length === 0 ? (
-      <>記事が見つかりません</>
-    ) :  (
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
@@ -39,7 +37,6 @@ function Home() {
         ))}
       </ul>
     )
-  );
 }
 
 export default Home

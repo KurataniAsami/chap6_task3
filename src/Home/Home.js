@@ -3,22 +3,23 @@ import { Link } from "react-router-dom";
 import styles from './Home.module.css';
 
 function Home() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getAllPosts = async () => {
     const response = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts")
     const data = await response.json();
     setPosts(data.posts);
+    setLoading(false);
   };
   getAllPosts();
   }, []);
 
-  if (!posts)
-    return
-      <div>読み込み中</div>
-  
-    return (
+  return (
+    loading ? (
+      <>loading</>
+    ) : (
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
@@ -31,10 +32,11 @@ function Home() {
               <div className={styles["line-clamp"]}>
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
               </div>
-            </ Link>
+            </Link>
           </li>
         ))}
       </ul>
+    )
   );
 }
 

@@ -5,7 +5,6 @@ import styles from './Home.module.css';
 function Home() {
   const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -13,21 +12,16 @@ function Home() {
     const data = await response.json();
     setPosts(data.posts);
     setLoading(false);
-    if (!data.post) {
-      setError(true);
-    }
   };
   getAllPosts();
   }, []);
 
-  if (error) {
-    return <>記事が見つかりません</>
-  }
-
   return (
     loading ? (
       <>loading</>
-    ) : (
+    ) : posts.length === 0 ? (
+      <>記事が見つかりません</>
+    ) :  (
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
